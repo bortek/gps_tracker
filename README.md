@@ -24,7 +24,7 @@ https://github.com/MartijnBraam/gpsd-py3
 In Raspbian/Debian In order to install all the above dependencies:  
 ```
 sudo apt-get update
-sudo apt-get install gpsd python3 python3-pip git
+sudo apt-get install gpsd gpsd-clients python3 python3-pip git
 sudo pip3 install gpsd-py3
 cd ~
 git clone https://github.com/kostiskag/gps_tracker.git
