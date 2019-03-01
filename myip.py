@@ -1,6 +1,6 @@
 import socket
 
-def myip():
+def getmyip():
     s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     try:
         # doesn't even have to be reachable

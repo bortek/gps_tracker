@@ -15,9 +15,10 @@ import socket
 import gpsd
 import time
 import sys
+from myip import getmyip
 
 #you should change your ip address and tcp port to your server's address
-IP_ADDR = '192.168.1.2'
+IP_ADDR = getmyip()
 TCP_PORT = 2345
 BUFFER_SIZE = 20
 NO_FIX = bytes("NO-FIX","utf-8")
