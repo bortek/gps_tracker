@@ -10,15 +10,15 @@
 # Description: This file initts all gps related stuff.
 ### END INIT INFO
 (
-sleep 60
+#sleep 60
 gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
 
 (
 while : ; do
-   chmod 777 /dev/ttyAMA0
-   sleep 20
+#   chmod 777 /dev/ttyAMA0
+   sleep 2
 done
 ) &
 
-sudo -u pi /home/pi/gps_bundle_services start
-) > /home/pi/gpsout
+sudo -u pi /home/pi/gps_tracker/gps_bundle_services start
+) > /home/pi/gps_tracker/gpsout

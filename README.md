@@ -30,6 +30,11 @@ cd ~
 git clone https://github.com/kostiskag/gps_tracker.git
 cd gps_tracker
 ``` 
+There are init scripts available under scripts/etc/init.d. Copy them to /etc/init.d if you want to enable autostart and run e.g. 
+``` 
+sudo update-rc.d init_gps defaults
+``` 
+
   
 ## Setting Up
 
