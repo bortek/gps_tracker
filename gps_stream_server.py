@@ -132,7 +132,7 @@ while True:
   </body>
 </html>
 """
-          filename = 'gps/snapshot-'+pointList[0]['time'].replace(':','_')+'.html'         
+          filename = 'snapshot-'+pointList[0]['time'].replace(':','_')+'.html'         
           try:
              f = open(filename, 'w')  
              f.write(GENERATED_HTTP_PAGE)
