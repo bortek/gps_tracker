@@ -7,12 +7,14 @@
 # dont need logger now
 #python3 /home/pi/gps_tracker/d_gps_logger.py $1
 
+HOME_DIR="/home/pi/gps_tracker/"
 
 case "$1" in
         start)
 		echo "starting/stopping server"
-		nohup python3 /home/pi/gps_tracker/gps_stream_server.py 2>&1 &
-		sleep 2
+		cd $HOME_DIR
+		python3 /home/pi/gps_tracker/gps_stream_server.py 2>&1 &
+		sleep 10
 
 		echo "starting/stopping stream client lan"
 		# delete eny leftovers from unclean shutdown/restart
@@ -22,7 +24,7 @@ case "$1" in
 		python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I) 2345 start
                 ;;
         stop)
-
+		cd $HOME_DIR
 		python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I) 2345 stop
                 ;;
         *)
