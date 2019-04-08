@@ -1,0 +1,6 @@
+starting/stopping server
+starting/stopping stream client lan
+usage: /home/pi/gps_tracker/d_gps_stream_client.py ip_v4_address tcp_port start|stop|restart
+Warning the ip address and port are also being used as a pid signature in order to let the tacker subscribe to multiple servers. When stop or restart have to be called that sould be done with the same ip address and port the start call was made.
+usage: /home/pi/gps_tracker/d_gps_stream_client.py ip_v4_address tcp_port start|stop|restart
+Warning the ip address and port are also being used as a pid signature in order to let the tacker subscribe to multiple servers. When stop or restart have to be called that sould be done with the same ip address and port the start call was made.

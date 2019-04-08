@@ -1,0 +1,86 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <title>Lobsang location</title>
+    <style>
+      /* Always set the map height explicitly to define the size of the div
+       * element that contains the map. */
+      #map {
+        height: 100%;
+      }
+      /* Optional: Makes the sample page fill the window. */
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+  </head>
+  <body>
+  Lobsang Location
+    <div id="map"></div>
+    <script>
+
+      // This generated html script is based on the example on: 
+      // https://developers.google.com/maps/documentation/javascript/examples/polyline-simple
+      
+      function initMap() {
+        var map = new google.maps.Map(document.getElementById('map'), {
+          zoom: 20,
+          center: {lat: 59.382474494, lng: 17.993499972},
+
+        });
+
+        var listOfPoints = [
+        {lat: 59.382486735, lng: 17.993577897},
+{lat: 59.382488209, lng: 17.993586952},
+{lat: 59.38248553, lng: 17.993589818},
+{lat: 59.382482986, lng: 17.993584728},
+{lat: 59.38248171, lng: 17.993578119},
+{lat: 59.382481386, lng: 17.993567502},
+{lat: 59.38248159, lng: 17.993558871},
+{lat: 59.382483812, lng: 17.993550052},
+{lat: 59.382483193, lng: 17.993536855},
+{lat: 59.38248247, lng: 17.993527758},
+{lat: 59.382481271, lng: 17.993520855},
+{lat: 59.382479571, lng: 17.993514188},
+{lat: 59.382478986, lng: 17.993508963},
+{lat: 59.382477979, lng: 17.993505066},
+{lat: 59.38247641, lng: 17.993501135},
+{lat: 59.382475567, lng: 17.993499372},
+{lat: 59.382474494, lng: 17.993499972},
+];
+          
+        var PolylinePath = new google.maps.Polyline({
+          path: listOfPoints,
+          geodesic: true,
+          strokeColor: '#FF0000',
+          strokeOpacity: 1.0,
+          strokeWeight: 7
+        });
+
+        for ( var i = 0; i < PolylinePath.getPath().getLength(); i++ ) {
+           var marker = new google.maps.Marker({
+             icon     : {
+               // use whatever icon you want for the "dots"
+               url     : "https://maps.gstatic.com/intl/en_us/mapfiles/markers2/measle_blue.png",
+               size    : new google.maps.Size( 7, 7 ),
+               anchor  : new google.maps.Point( 4, 4 )
+             },
+             title    : PolylinePath.getPath().getAt( i ),
+             position : PolylinePath.getPath().getAt( i ),
+             map      : map
+           });
+        }
+        
+        PolylinePath.setMap(map);
+      }
+    </script>
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBk3L-vfA4qB4q5IJbZQE7UU8xnRRx2dEo&callback=initMap">
+    </script>
+  </body>
+</html>

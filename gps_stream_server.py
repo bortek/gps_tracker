@@ -24,7 +24,7 @@ IP_ADDR = '0.0.0.0'
 TCP_PORT = 2345
 BUFFER_SIZE = 1024
 ACK = bytes("ack","utf-8")
-MAXIMUM_POINTS_PER_FILE = 10 
+MAXIMUM_POINTS_PER_FILE = 20
 
 while True: 
   s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -37,6 +37,9 @@ while True:
   
   i=0
   pointList = []
+  # execute this below when you want to clean the list of coord after 100 iterations
+  js_data_points = ""
+  point = ""
   while True:
      try:
        data = conn.recv(BUFFER_SIZE)
@@ -53,23 +56,34 @@ while True:
             print('Received malformed json data. Skipping.')
          except:
             raise     
-       
-       if i>= MAXIMUM_POINTS_PER_FILE:
-          print(str(MAXIMUM_POINTS_PER_FILE) + ' points collected, exporting to html...')
-          i=0
-          js_data_points = ""
-          for point in pointList:
-              str_point = "{lat: "+point['lat']+", lng: "+point['lon']+"},\n"
-              js_data_points = js_data_points + str_point
-          print('collected js_data_points\n'+js_data_points)    
+
+       print (len(pointList))
+       if len(pointList) > MAXIMUM_POINTS_PER_FILE:
+           del pointList[0]
+
+       js_data_points="" 
+        
+       for point in pointList:
+           str_point = "{lat: "+point['lat']+", lng: "+point['lon']+"},\n"
+           js_data_points = js_data_points + str_point
+
+
+#       if i>= MAXIMUM_POINTS_PER_FILE:
+#          print(str(MAXIMUM_POINTS_PER_FILE) + ' points collected, exporting to html...')
+#          i=0
+#          js_data_points = ""
+#          for point in pointList:
+#              str_point = "{lat: "+point['lat']+", lng: "+point['lon']+"},\n"
+#              js_data_points = js_data_points + str_point
+#          print('collected js_data_points\n'+js_data_points)    
            
-          GENERATED_HTTP_PAGE = """
+       GENERATED_HTTP_PAGE = """
 <!DOCTYPE html>
 <html>
   <head>
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
-    <title>Generated Route</title>
+    <title>Lobsang location</title>
     <style>
       /* Always set the map height explicitly to define the size of the div
        * element that contains the map. */
@@ -85,6 +99,7 @@ while True:
     </style>
   </head>
   <body>
+  Lobsang Location
     <div id="map"></div>
     <script>
 
@@ -94,8 +109,7 @@ while True:
       function initMap() {
         var map = new google.maps.Map(document.getElementById('map'), {
           zoom: 20,
-          center: {lat: """+pointList[0]['lat']+""", lng: """+pointList[0]['lon']+"""},
-          mapTypeId: 'terrain'
+          center: """+str_point+"""
         });
 
         var listOfPoints = [
@@ -132,15 +146,16 @@ while True:
   </body>
 </html>
 """
-          filename = 'snapshot-'+pointList[0]['time'].replace(':','_')+'.html'         
-          try:
-             f = open(filename, 'w')  
-             f.write(GENERATED_HTTP_PAGE)
-             f.close()
-          except:
-             raise
+       filename = 'index.html'         
+          #filename = 'snapshot-'+pointList[0]['time'].replace(':','_')+'.html'         
+       try:
+          f = open(filename, 'w')  
+          f.write(GENERATED_HTTP_PAGE)
+          f.close()
+       except:
+          raise
              
-          pointList = []       
+          #pointList = []       
        conn.send(ACK)
        
      except socket.error:

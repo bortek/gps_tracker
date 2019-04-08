@@ -17,6 +17,8 @@ https://learn.adafruit.com/adafruit-ultimate-gps/circuitpython-parsing
 
 If you connect using UART then you should first disable serial console before you connect your GPS. Otherwise you will get yourscreen  filled with SysReq/kernel errors. To disable serial console remove the word phase "console=serial0,115200" or "console=ttyAMA0,115200" from /boot/cmdline.txt  
 
+NOTE: On Pi Zero uar device is not called /dev/ttyAMA0 instead it is called /dev/ttyS0. You will have to update it in scripts/etc/init.d/init_gps or where you rgpsd deamon starts.
+
 ## Installing
 In order to be able to run the scripts you should have a linux distribution with python3 and gpsd installed, most preferably, debian based. In addition you should have the gpsd-py3 package wich may be found here:
 https://github.com/MartijnBraam/gpsd-py3
