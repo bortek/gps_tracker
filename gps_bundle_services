@@ -16,7 +16,6 @@ case "$1" in
 
 		echo "starting/stopping stream client lan"
 		# delete eny leftovers from unclean shutdown/restart
-		python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I) 2345 stop
 		if [ -e /tmp/d-gps-stream-client*.pid ]; then 
 			rm -rf /tmp/d-gps-stream-client*.pid
 		fi
