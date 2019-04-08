@@ -2,16 +2,17 @@
 
 ### BEGIN INIT INFO
 # Provides: init_gps
-# Required-Start: $all
+# Required-Start: $network $local_fs $named
 # Required-Stop:
-# Default-Start: 4
-# Default-Stop:
+# Default-Start: 2 3 4 5
+# Default-Stop: 2 3 4 5
 # Short-Description: Initialises gpsd and python services.
 # Description: This file initts all gps related stuff.
 ### END INIT INFO
 (
 #sleep 60
-gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
+gpsd /dev/ttyS0 -F /var/run/gpsd.sock
+#gpsd /dev/ttyAMA0 -F /var/run/gpsd.sock
 
 (
 while : ; do
@@ -21,4 +22,4 @@ done
 ) &
 
 sudo -u pi /home/pi/gps_tracker/gps_bundle_services start
-) > /home/pi/gps_tracker/gpsout
+) > /home/pi/gps_tracker/startup.log 2>&1
