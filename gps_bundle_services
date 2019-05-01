@@ -17,48 +17,52 @@ cd $HOME_DIR
 case "$1" in
         start)
 		if [ -z "$PID_SERVER" ]; then
-		  echo "starting server"
+		  echo "$(date) - starting server"
 		  python3 /home/pi/gps_tracker/gps_stream_server.py &
 		  sleep 1
 		else
-		  echo "server already running"
+		  echo "$(date) - server already running"
 		fi
 
 		if [ -z "$PID_CLIENT" ]; then
-		  echo "starting stream client lan"
+		  echo "$(date) - starting stream client lan"
 		  # delete eny leftovers from unclean shutdown/restart
 		  if [ -e /tmp/d-gps-stream-client*.pid ]; then 
 		    rm -rf /tmp/d-gps-stream-client*.pid
 		  fi
-	 	  python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I) 2345 start
+	 	  python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I|cut -d " " -f1) 2345 start
 		else
-		  echo "client already running"
+		  echo "$(date) - client already running"
 		fi
                 ;;
         stop)
 		if [ -n "$PID_CLIENT" ]; then 
-		  echo "stopping client"
-		  python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I) 2345 stop
-		  else echo "client is already stopped"
+		  echo "$(date) - stopping client"
+		  python3 /home/pi/gps_tracker/d_gps_stream_client.py $(hostname -I|cut -d " " -f1) 2345 stop
+		  else echo "$(date) - client is already stopped"
 		fi
 
 		if [ -n "$PID_SERVER" ]; then 
-		  echo "stopping server"
+		  echo "$(date) - stopping server"
 		  kill $PID_SERVER
-		  else echo "server is already stopped"
+		  else echo "$(date) - server is already stopped"
 		fi
 
                 ;;
 	status)
-		if [ -z "$PID_CLIENT" ]; then echo "Client is not running"; EXIT_CODE=1; else EXIT_CODE=0; fi
-		if [ -z "$PID_SERVER" ]; then echo "Server is not running"; EXIT_CODE=1; else EXIT_CODE=0; fi
+		if [ -z "$PID_CLIENT" ]; then echo "$(date) - Client is not running"; EXIT_CODE_CLIENT=1; else EXIT_CODE_CLIENT=0; fi
+		if [ -z "$PID_SERVER" ]; then echo "$(date) - Server is not running"; EXIT_CODE_SERVER=1; else EXIT_CODE_SERVER=0; fi
 
-		if [ $EXIT_CODE -ne 1 ]; then
-		  echo "client and server are running"
-		  exit $EXIT_CODE
+		if [ $EXIT_CODE_CLIENT -ne 1 ] && [ $EXIT_CODE_SERVER -ne 1 ]; then
+		  echo "$(date) - client and server are running"
+		  exit 0
 		else
 		  exit 1
 		fi
+		;;
+	restart)
+		$0 stop
+		$0 start
 		;;
         *)
 		echo "supply start or stop argument"
